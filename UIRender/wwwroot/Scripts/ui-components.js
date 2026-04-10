@@ -55,10 +55,37 @@ class UIInput extends UIComponent {
     }
 }
 
+class UIPanel extends UIComponent {
+    title;
+    children;
+    constructor(id, cssClass, title, children) {
+        super(id, cssClass);
+        this.title = title;
+        this.children = children;
+    }
+    render() {
+        return 'div';
+    }
+    mount(containerId) {
+        super.mount(containerId);
+        const panelTitle = document.createElement('h3');
+        panelTitle.textContent = this.title;
+        this.element.appendChild(panelTitle);
+        for (const child of this.children) {
+            child.mount(this.id);
+        }
+    }
+}
+
 const container = new UIComponent('container', 'container');
 const button = new UIButton('js-button', 'btn', 'Click me!', 'green');
 const input = new UIInput('js-input', 'input', 'Enter your name', 'text');
+const panel = new UIPanel('js-panel', 'panel', 'This is panel', 
+    [
+        new UIButton('js-button1', 'btn', 'Click me!', 'green'),
+        new UIButton('js-button2', 'btn', 'Click me!', 'grey')]);
 
 container.mount('app');
 button.mount('container');
 input.mount('container');
+panel.mount('container');
