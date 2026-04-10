@@ -37,8 +37,28 @@ class UIButton extends UIComponent {
     }
 }
 
-let component = new UIComponent('container', 'container');
-let component1 = new UIButton('js-button', 'btn', 'Click me!', 'green');
+class UIInput extends UIComponent {
+    placeholder;
+    type;
+    constructor(id, cssClass, placeholder, type) {
+        super(id, cssClass);
+        this.placeholder = placeholder;
+        this.type = type;
+    }
+    render() {
+        return 'input';
+    }
+    mount(containerId) {
+        super.mount(containerId);
+        this.element.placeholder = this.placeholder;
+        this.element.type = this.type;
+    }
+}
 
-component.mount('app');
-component1.mount('container');
+const container = new UIComponent('container', 'container');
+const button = new UIButton('js-button', 'btn', 'Click me!', 'green');
+const input = new UIInput('js-input', 'input', 'Enter your name', 'text');
+
+container.mount('app');
+button.mount('container');
+input.mount('container');
