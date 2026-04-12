@@ -140,15 +140,15 @@ class UICard extends UIPanel {
 
 const panel = new UIPanel("p1", "panel", "Login Form", [
     new UIInput("login", "form-control-sm", "Name", "text"),
-    new UIButton("btn1", "btn", "Log In", "#4CAF50"),
-    new UIButton("btn2", "btn", "Log In", "#4CAF50"),
+    new UIButton("btn1", "btn", "Register", "skyblue"),
+    new UIButton("btn2", "btn", "Log In", "hotpink"),
     new UICard("card1", "card1", "Card",
-        [new UIList('list1', "js-list", ['Name', 'Age', new UIList('list2', 'js-list', ['Name', 'Age'])])],
+        [new UIList('list1', "js-list", ['Name', 'Age', new UIList('list2', 'js-list', ['Height', 'Weight'])])],
         'https://i.pinimg.com/736x/78/bb/bb/78bbbbc56992ba01452f82419ca42ef7.jpg'),
 ]);
-
 const addInputButton = new UIButton("add-input-btn", "btn", "Add input", "#4CAF50");
-addInputButton.element.addEventListener("click", (e) => {
+
+addInputButton.element.addEventListener("click", () => {
     let count = 0;
     const newInput = new UIInput(`input${count++}`, 'form-control', 'Put information here', 'text');
     newInput.mount('p1');
