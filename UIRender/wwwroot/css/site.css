@@ -29,3 +29,30 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+
+
+#login, #pass {
+  display: block;
+  margin-bottom: 10px;
+}
+.btn {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel {
+  border: 1px solid black;
+  padding: 40px;
+  width: 40vw;
+}
+
+#add-input-btn {
+  margin-top: 20px;
+}
