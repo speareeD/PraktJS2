@@ -1,8 +1,12 @@
-namespace UIRender.Models;
+﻿namespace UIRender.Models;
 
 public class ErrorViewModel
 {
     public string? RequestId { get; set; }
 
-    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId) switch
+    {
+        true => true,
+        false => false
+    };
 }
