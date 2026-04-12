@@ -1,11 +1,12 @@
 ﻿class UIComponent {
     id;
     cssClass;
-    element = document.createElement(this.render());
+    element;
 
     constructor(id, cssClass) {
         this.id = id;
         this.cssClass = cssClass;
+        this.element = document.createElement(this.render());
     }
 
     render() {
@@ -13,10 +14,14 @@
     }
 
     mount(containerId) {
-        const container = document.getElementById(containerId);
+        const parent = typeof containerId === 'string'
+            ? document.getElementById(containerId)
+            : containerId;
+
         this.element.id = this.id;
-        this.element.classList.add(this.cssClass);
-        container.appendChild(this.element);
+        if (this.cssClass) this.element.classList.add(this.cssClass);
+
+        parent.appendChild(this.element);
     }
 }
 
@@ -90,7 +95,7 @@ class UIPanel extends UIComponent {
 class UIList extends UIComponent {
     items;
 
-    constructor(id, cssClass, items) {
+    constructor(id, cssClass, items = []) {
         super(id, cssClass);
         this.items = items;
     }
@@ -101,9 +106,15 @@ class UIList extends UIComponent {
 
     mount(containerId) {
         super.mount(containerId);
-        for (const [key, value] of Object.entries(inputList)) {
-            const li = document.createElement(value);
-            li.innerHTML = key;
+
+        for (const itemData of this.items) {
+            const li = document.createElement('li');
+
+            if (itemData instanceof UIComponent) {
+                itemData.mount(li);
+            } else {
+                li.innerHTML = itemData;
+            }
             this.element.appendChild(li);
         }
     }
@@ -111,10 +122,12 @@ class UIList extends UIComponent {
 
 class UICard extends UIPanel {
     imageUrl;
+
     constructor(id, cssClass, title, children, imageUrl) {
         super(id, cssClass, title, children);
         this.imageUrl = imageUrl;
     }
+
     mount(containerId) {
         super.mount(containerId);
         const img = document.createElement('img');
@@ -124,19 +137,13 @@ class UICard extends UIPanel {
     }
 }
 
-const inputList = {
-    'Name': 'li',
-    'Age': 'li',
-    'Email': 'li',
-    'Phone number': 'li',
-}
 
 const panel = new UIPanel("p1", "panel", "Login Form", [
     new UIInput("login", "form-control-sm", "Name", "text"),
     new UIButton("btn1", "btn", "Log In", "#4CAF50"),
     new UIButton("btn2", "btn", "Log In", "#4CAF50"),
-    new UICard("card1", "card1", "Card", 
-        [new UIList('list1', "js-list", inputList)],
+    new UICard("card1", "card1", "Card",
+        [new UIList('list1', "js-list", ['Name', 'Age', new UIList('list2', 'js-list', ['Name', 'Age'])])],
         'https://i.pinimg.com/736x/78/bb/bb/78bbbbc56992ba01452f82419ca42ef7.jpg'),
 ]);
 
@@ -149,6 +156,4 @@ addInputButton.element.addEventListener("click", (e) => {
 
 panel.mount('app');
 addInputButton.mount('p1');
-
-
 
